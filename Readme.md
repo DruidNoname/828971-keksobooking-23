@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Olga Stepanova](https://up.htmlacademy.ru/javascript/23/user/828971).
-* Наставник: `Неизвестно`.
+* Наставник: [Ivan Nikonorov](https://htmlacademy.ru/profile/id1758707).
 
 ---
 
