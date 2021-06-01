@@ -3,7 +3,7 @@
 function generateRandomIntegerNumberFromInterval(minValue, maxValue) {
   const rangeOfNumbers = maxValue - minValue;
   const integerRangeOfNumbers = Math.floor(maxValue) - Math.ceil(minValue);
-  const randomArea = Math.random() * (integerRangeOfNumbers + 1) + Math.ceil(minValue);
+  const randomNumberOnInterval = Math.random() * (integerRangeOfNumbers + 1) + Math.ceil(minValue);
   if (typeof minValue !== 'number' || typeof maxValue !== 'number') {
     return 'Аргументы функции должны быть числами';
   }
@@ -16,7 +16,7 @@ function generateRandomIntegerNumberFromInterval(minValue, maxValue) {
   if (minValue < 0) {
     return 'На границах интервала не могут быть отрицательные числа';
   }
-  return Math.floor(randomArea);
+  return Math.floor(randomNumberOnInterval);
 }
 
 generateRandomIntegerNumberFromInterval(10, 24);
@@ -24,10 +24,10 @@ generateRandomIntegerNumberFromInterval(10, 24);
 function generateRandomDecimalNumberFromInterval(minValue, maxValue, decimalPlaces) {
   const rangeOfNumbers = maxValue - minValue;
   const multiplyerForValueCutting = Math.pow(10, decimalPlaces);
-  const maxValueRounded = Math.floor(maxValue * multiplyerForValueCutting) / multiplyerForValueCutting;
-  const minValueRounded = Math.ceil(minValue * multiplyerForValueCutting) / multiplyerForValueCutting;
-  const rangeOfNumbersWithDecimal = maxValueRounded - minValueRounded;
-  const randomArea = Math.random() * (rangeOfNumbersWithDecimal + (1 / multiplyerForValueCutting)) + minValueRounded;
+  const maxValueScaled = Math.floor(maxValue * multiplyerForValueCutting) / multiplyerForValueCutting;
+  const minValueScaled = Math.ceil(minValue * multiplyerForValueCutting) / multiplyerForValueCutting;
+  const decimalRangeOfNumbers = maxValueScaled - minValueScaled;
+  const randomNumberOnInterval = Math.random() * (decimalRangeOfNumbers + (1 / multiplyerForValueCutting)) + minValueScaled;
   if (typeof minValue !== 'number' || typeof maxValue !== 'number' || typeof decimalPlaces !== 'number') {
     return 'Аргументы функции должны быть числами';
   }
@@ -43,10 +43,10 @@ function generateRandomDecimalNumberFromInterval(minValue, maxValue, decimalPlac
   if (decimalPlaces < 0) {
     return 'Количество знаков после запятой не может быть отрицательным числом';
   }
-  if (rangeOfNumbersWithDecimal < 0) {
+  if (decimalRangeOfNumbers < 0) {
     return 'В указанном интервале отсутствуют числа с заданным количеством знаков после запятой';
   }
-  return Number((Math.floor(randomArea * multiplyerForValueCutting) / multiplyerForValueCutting).toFixed(decimalPlaces));
+  return Math.floor(randomNumberOnInterval * multiplyerForValueCutting) / multiplyerForValueCutting;
 }
 
 generateRandomDecimalNumberFromInterval(0.025, 0.026, 4);
