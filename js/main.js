@@ -1,4 +1,22 @@
-// источник - https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Math
+const avatarLinks = [];
+let placeCoords = [];
+const TYPE = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+const CHECK_IN = ['12:00', '13:00', '14:00'];
+const CHECK_OUT = CHECK_IN;
+const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+const PHOTOS = [
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
+];
+
+(() => {
+  for (let i = 1; i < 10; i++) {
+    avatarLinks.push(`img/avatars/user0${i}.png`);
+  }
+  avatarLinks.push('img/avatars/user10.png');
+})();
+
 
 function generateRandomIntegerNumberFromInterval(minValue, maxValue) {
   const rangeOfNumbers = maxValue - minValue;
@@ -18,8 +36,6 @@ function generateRandomIntegerNumberFromInterval(minValue, maxValue) {
   }
   return Math.floor(randomNumberOnInterval);
 }
-
-generateRandomIntegerNumberFromInterval(10, 24);
 
 function generateRandomDecimalNumberFromInterval(minValue, maxValue, decimalPlaces) {
   const rangeOfNumbers = maxValue - minValue;
@@ -49,6 +65,56 @@ function generateRandomDecimalNumberFromInterval(minValue, maxValue, decimalPlac
   return Math.floor(randomNumberOnInterval * multiplyerForValueCutting) / multiplyerForValueCutting;
 }
 
-generateRandomDecimalNumberFromInterval(0.025, 0.026, 4);
-generateRandomDecimalNumberFromInterval(1.026, 1.026, 4);
-generateRandomDecimalNumberFromInterval(1.026, 'селёдка', 4);
+function generateRandomIndexForArray(array) {
+  return array[generateRandomIntegerNumberFromInterval(0, array.length - 1)];
+}
+
+function createRandomArrayFromArray(array) {
+  const shuffledArray = () => {
+    let j, temp;
+    for (let i = array.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      temp = array[j];
+      array[j] = array[i];
+      array[i] = temp;
+    }
+    return array;
+  };
+  const newArrayLength = generateRandomIntegerNumberFromInterval(1, array.length - 1);
+  return shuffledArray().slice(0, newArrayLength);
+}
+
+function getPlaceCoords() {
+  placeCoords = [];
+  placeCoords.push(generateRandomDecimalNumberFromInterval(35.65000, 35.70000, 5));
+  placeCoords.push(generateRandomDecimalNumberFromInterval(139.70000, 139.80000, 5));
+  return placeCoords;
+}
+
+const createRentalAd = (value, index) => {
+  getPlaceCoords();
+  return {
+    author: {
+      avatar: avatarLinks[index],
+    },
+    offer: {
+      title: 'Сдаётся помещение',
+      address: placeCoords.join(', '),
+      price: generateRandomIntegerNumberFromInterval(1000, 100500),
+      type: generateRandomIndexForArray(TYPE),
+      rooms: generateRandomIntegerNumberFromInterval(1, 300),
+      guests: generateRandomIntegerNumberFromInterval(1, 300),
+      checkin: generateRandomIndexForArray(CHECK_IN),
+      checkout: generateRandomIndexForArray(CHECK_OUT),
+      features: createRandomArrayFromArray(FEATURES),
+      description: 'Если вы ПО КОРИДОРУ мчитесь на велосипеде, а навстречу вам ИЗ ВАННОЙ вышел папа погулять - не сворачивайте В КУХНЮ! В КУХНЕ - твердый холодильник!!!',
+      photos: createRandomArrayFromArray(PHOTOS),
+      location: {
+        lat: placeCoords[0],
+        lng: placeCoords[1],
+      },
+    },
+  };
+};
+
+const createRandomOffers = new Array(10).fill(null).map((value, index) => createRentalAd(value, index));
