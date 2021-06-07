@@ -65,7 +65,7 @@ function generateRandomDecimalNumberFromInterval(minValue, maxValue, decimalPlac
   return Math.floor(randomNumberOnInterval * multiplyerForValueCutting) / multiplyerForValueCutting;
 }
 
-function generateRandomIndexForArray(array) {
+function getRandomElementFromArray(array) {
   return array[generateRandomIntegerNumberFromInterval(0, array.length - 1)];
 }
 
@@ -101,11 +101,11 @@ const createRentalAd = (value, index) => {
       title: 'Сдаётся помещение',
       address: placeCoords.join(', '),
       price: generateRandomIntegerNumberFromInterval(1000, 100500),
-      type: generateRandomIndexForArray(TYPE),
+      type: getRandomElementFromArray(TYPE),
       rooms: generateRandomIntegerNumberFromInterval(1, 300),
       guests: generateRandomIntegerNumberFromInterval(1, 300),
-      checkin: generateRandomIndexForArray(CHECK_IN),
-      checkout: generateRandomIndexForArray(CHECK_OUT),
+      checkin: getRandomElementFromArray(CHECK_IN),
+      checkout: getRandomElementFromArray(CHECK_OUT),
       features: createRandomArrayFromArray(FEATURES),
       description: 'Если вы ПО КОРИДОРУ мчитесь на велосипеде, а навстречу вам ИЗ ВАННОЙ вышел папа погулять - не сворачивайте В КУХНЮ! В КУХНЕ - твердый холодильник!!!',
       photos: createRandomArrayFromArray(PHOTOS),
