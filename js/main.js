@@ -1,5 +1,3 @@
-const avatarLinks = [];
-let placeCoords = [];
 const TYPE = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const CHECK_IN = ['12:00', '13:00', '14:00'];
 const CHECK_OUT = CHECK_IN;
@@ -9,14 +7,9 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
-
-(() => {
-  for (let i = 1; i < 10; i++) {
-    avatarLinks.push(`img/avatars/user0${i}.png`);
-  }
-  avatarLinks.push('img/avatars/user10.png');
-})();
-
+const avatarLinks = new Array(10)
+  .fill(null)
+  .map((value, index) => `img/avatars/user0${index + 1}.png`);
 
 function generateRandomIntegerNumberFromInterval(minValue, maxValue) {
   const rangeOfNumbers = maxValue - minValue;
@@ -85,14 +78,13 @@ function createRandomArrayFromArray(array) {
 }
 
 function getPlaceCoords() {
-  placeCoords = [];
-  placeCoords.push(generateRandomDecimalNumberFromInterval(35.65000, 35.70000, 5));
-  placeCoords.push(generateRandomDecimalNumberFromInterval(139.70000, 139.80000, 5));
-  return placeCoords;
+  const lat = (generateRandomDecimalNumberFromInterval(35.65000, 35.70000, 5));
+  const lng = (generateRandomDecimalNumberFromInterval(139.70000, 139.80000, 5));
+  return [lat, lng];
 }
 
 const createRentalAd = (value, index) => {
-  getPlaceCoords();
+  const placeCoords = getPlaceCoords();
   return {
     author: {
       avatar: avatarLinks[index],
@@ -107,7 +99,9 @@ const createRentalAd = (value, index) => {
       checkin: getRandomElementFromArray(CHECK_IN),
       checkout: getRandomElementFromArray(CHECK_OUT),
       features: createRandomArrayFromArray(FEATURES),
-      description: 'Если вы ПО КОРИДОРУ мчитесь на велосипеде, а навстречу вам ИЗ ВАННОЙ вышел папа погулять - не сворачивайте В КУХНЮ! В КУХНЕ - твердый холодильник!!!',
+      description: 'Если вы ПО КОРИДОРУ мчитесь на велосипеде, ' +
+        'а навстречу вам ИЗ ВАННОЙ вышел папа погулять - не сворачивайте В КУХНЮ! ' +
+        'В КУХНЕ - твердый холодильник!!!',
       photos: createRandomArrayFromArray(PHOTOS),
       location: {
         lat: placeCoords[0],
@@ -117,4 +111,6 @@ const createRentalAd = (value, index) => {
   };
 };
 
-const createRandomOffers = new Array(10).fill(null).map((value, index) => createRentalAd(value, index));
+const createRandomOffers = new Array(10)
+  .fill(null)
+  .map(createRentalAd);
