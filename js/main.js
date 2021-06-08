@@ -65,7 +65,9 @@ function getRandomElementFromArray(array) {
 function createRandomArrayFromArray(array) {
   const shuffledArray = () => {
     let j, temp;
-    for (let i = array.length - 1; i > 0; i--) {
+    const arrayLength = array.length;
+
+    for (let i = arrayLength - 1; i > 0; i--) {
       j = Math.floor(Math.random() * (i + 1));
       temp = array[j];
       array[j] = array[i];
@@ -78,8 +80,8 @@ function createRandomArrayFromArray(array) {
 }
 
 function getPlaceCoords() {
-  const lat = (generateRandomDecimalNumberFromInterval(35.65000, 35.70000, 5));
-  const lng = (generateRandomDecimalNumberFromInterval(139.70000, 139.80000, 5));
+  const lat = generateRandomDecimalNumberFromInterval(35.65000, 35.70000, 5);
+  const lng = generateRandomDecimalNumberFromInterval(139.70000, 139.80000, 5);
   return [lat, lng];
 }
 
@@ -111,6 +113,6 @@ const createRentalAd = (value, index) => {
   };
 };
 
-const createRandomOffers = new Array(10)
+new Array(10)
   .fill(null)
   .map(createRentalAd);
