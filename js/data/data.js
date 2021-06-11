@@ -1,6 +1,4 @@
-import {getRandomPositiveInteger, getRandomPositiveFloat} from '../utils/utils.js';
-// import './utils/get-random-positive-integer.js';
-// import './utils/get-random-positive-float.js';
+import { getRandomPositiveInteger, getRandomPositiveFloat } from '../utils/utils.js';
 
 const TYPE = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const CHECK_IN = ['12:00', '13:00', '14:00'];
