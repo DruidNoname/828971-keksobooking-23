@@ -68,9 +68,8 @@ const createRentalAd = (value, index) => {
   };
 };
 
-export const createData = function(quantity) {
+export const createRandomOffers = function(quantity) {
   return new Array(quantity)
     .fill(null)
     .map(createRentalAd);
-}
-
+};
