@@ -4,7 +4,7 @@ const QUARTERS_TYPES_WITH_NAMES = {
   bungalow: 'Бунгало',
   house: 'Дом',
   palace: 'Дворец',
-  hotel : 'Отель',
+  hotel: 'Отель',
 };
 const popupBalloonTemplate = document.querySelector('#card')
   .content
