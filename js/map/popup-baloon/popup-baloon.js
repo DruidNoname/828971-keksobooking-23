@@ -40,7 +40,6 @@ balloons.forEach((offerData) => {
         popupBalloon.querySelector('.popup__type').textContent = QUARTERS_TYPES_WITH_NAMES[key];
       }
     }
-
   } else {
     popupBalloon.querySelector('.popup__type').remove();
   }
@@ -76,7 +75,7 @@ balloons.forEach((offerData) => {
         .cloneNode(true);
       popupPhoto.setAttribute('src', photoLink);
       popupPhotoBlock.appendChild(popupPhoto);
-    });//здесь несколько фотографий
+    });
     popupPhotoBlock.removeChild(popupPhotoBlock.querySelector('.popup__photo'));
   } else {
     popupPhotoBlock.remove();
