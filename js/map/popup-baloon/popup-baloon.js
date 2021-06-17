@@ -9,10 +9,11 @@ const QUARTERS_TYPES_WITH_NAMES = {
 const popupBalloonTemplate = document.querySelector('#card')
   .content
   .querySelector('.popup');
+const map = document.querySelector('#map-canvas');
 const balloons = createRandomOffers(3);
 
+
 balloons.forEach((offerData) => {
-  const map = document.querySelector('#map-canvas');
   const popupBalloon = popupBalloonTemplate.cloneNode(true);
   const popupPhotoBlock = popupBalloon.querySelector('.popup__photos');//я вывела его в переменную потому что он повторяется много раз
 
