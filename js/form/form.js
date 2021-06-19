@@ -13,6 +13,7 @@ const filtersFormFields = filtersForm.querySelectorAll('fieldset');
 
 function setInactiveModeToForm(form, formFields, disabledClassName) {
   form.classList.add(disabledClassName);
+
   for (const formField of formFields) {
     formField.setAttribute('disabled', 'disabled');
   }
@@ -20,6 +21,7 @@ function setInactiveModeToForm(form, formFields, disabledClassName) {
 
 function setActiveModeToForm(form, formFields, disabledClassName) {
   form.classList.remove(disabledClassName);
+
   for (const formField of formFields) {
     formField.removeAttribute('disabled');
   }
