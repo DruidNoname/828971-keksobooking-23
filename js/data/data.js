@@ -51,8 +51,8 @@ const createRentalAd = (value, index) => {
       address: placeCoords.join(', '),
       price: getRandomPositiveInteger(1000, 100500),
       type: getRandomElementFromArray(TYPE),
-      rooms: getRandomPositiveInteger(1, 300),
-      guests: getRandomPositiveInteger(1, 300),
+      rooms: getRandomPositiveInteger(1, 100),
+      guests: getRandomPositiveInteger(1, 3),
       checkin: getRandomElementFromArray(CHECK_IN),
       checkout: getRandomElementFromArray(CHECK_OUT),
       features: createRandomArrayFromArray(FEATURES),
@@ -68,6 +68,8 @@ const createRentalAd = (value, index) => {
   };
 };
 
-new Array(10)
-  .fill(null)
-  .map(createRentalAd);
+export const createRandomOffers = function(quantity) {
+  return new Array(quantity)
+    .fill(null)
+    .map(createRentalAd);
+};
