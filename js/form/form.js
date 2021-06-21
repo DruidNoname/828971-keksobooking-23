@@ -23,7 +23,7 @@ function setActiveModeToForm(form, formFields, disabledClassName) {
   form.classList.remove(disabledClassName);
 
   for (const formField of formFields) {
-    formField.setAttribute('disabled', '');
+    formField.removeAttribute('disabled');
   }
 }
 
