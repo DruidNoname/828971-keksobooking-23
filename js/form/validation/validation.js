@@ -1,6 +1,11 @@
+import {capacity, equalizeGuestsToRooms, roomsNumber} from '../tools/guest.js';
+
 const offerTitleInput = document.querySelector('#title');
 const offerPriceInput = document.querySelector('#price');
-//const offerForm = document.querySelector('.ad-form');
+const offerSendButton = document.querySelector('.ad-form__submit');
+const offerForm = document.querySelector('.ad-form');
+let roomsCurrentOption = roomsNumber.options[roomsNumber.selectedIndex];
+let capacityCurrentOption = capacity.options[capacity.selectedIndex];
 
 offerTitleInput.addEventListener('invalid', () => {
   if (offerTitleInput.validity.valueMissing) {
@@ -12,7 +17,7 @@ offerTitleInput.addEventListener('invalid', () => {
   }
 });
 
-offerTitleInput.addEventListener('invalid', () => {
+offerPriceInput.addEventListener('invalid', () => {
   if (offerPriceInput.validity.valueMissing) {
     offerPriceInput.setCustomValidity('Цена помещения обязательна для заполнения');
   } else if (offerPriceInput.validity.rangeOverflow) {
@@ -22,4 +27,36 @@ offerTitleInput.addEventListener('invalid', () => {
   }
 });
 
+capacity.addEventListener('invalid', () => {
+  if (capacityCurrentOption.hasAttribute('disabled')) {
+    capacity.setCustomValidity('Количество гостей не соответствует заявленному количеству комнат');
+  } else {
+    capacity.setCustomValidity('');
+  }
+});
 
+roomsNumber.addEventListener('change', () => {
+  roomsCurrentOption = roomsNumber.options[roomsNumber.selectedIndex];
+});
+
+capacity.addEventListener('change', () => {
+  capacityCurrentOption = capacity.options[capacity.selectedIndex];
+
+  capacity.setCustomValidity('');
+});
+
+offerSendButton.addEventListener('click', () => {
+  equalizeGuestsToRooms(roomsNumber, capacity);
+
+  if (roomsCurrentOption.hasAttribute('disabled')) {
+    roomsNumber.setCustomValidity('Количество комнат не соответствует заявленному количеству гостей');
+    return;
+  }
+
+  if (capacityCurrentOption.hasAttribute('disabled')) {
+    capacity.setCustomValidity('Количество гостей не соответствует заявленному количеству комнат');
+    return;
+  }
+
+  offerForm.submit();
+});
