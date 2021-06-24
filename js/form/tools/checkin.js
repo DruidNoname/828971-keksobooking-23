@@ -1,11 +1,14 @@
+const checkIn = document.querySelector('#timein');
+const checkOut = document.querySelector('#timeout');
+
 function equalizeTimes(changedField, staticField) {
   staticField.selectedIndex = changedField.selectedIndex;
 }
 
-document.getElementById('timein').addEventListener('change', (event) => {
-  equalizeTimes(event.target, document.getElementById('timeout'));
+checkIn.addEventListener('change', (event) => {
+  equalizeTimes(event.target, checkOut);
 });
 
-document.getElementById('timeout').addEventListener('change', (event) => {
-  equalizeTimes(event.target, document.getElementById('timein'));
+checkOut.addEventListener('change', (event) => {
+  equalizeTimes(event.target, checkIn);
 });
