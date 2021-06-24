@@ -28,7 +28,6 @@ function equalizeRoomsToGuests(changedField, staticField) {
     if (changedOptionValue === '0') {
       if (item.value === '100') {
         item.removeAttribute('disabled');
-        staticField.selectedIndex = item.index;
       } else {
         item.setAttribute('disabled', true);
       }
