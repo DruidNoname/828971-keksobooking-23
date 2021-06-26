@@ -23,24 +23,32 @@ const MINIMAL_PRICE_FOR_RESIDENCE = [
   },
 ];
 
-function setPricePlaceholder() {
+function getMinimalPrice() {
   const currentResidenceType = typeField.options[typeField.selectedIndex].value;
   const neededResidencePrice = MINIMAL_PRICE_FOR_RESIDENCE.find(  (value) => value.type === currentResidenceType);
+  return neededResidencePrice.minPrice;
+}
 
-  priceField.min = neededResidencePrice.minPrice;
-  priceField.placeholder = neededResidencePrice.minPrice;
+function setPricePlaceholder(field) {
+  const minimalPrice = getMinimalPrice();
+  field.min = minimalPrice;
+  field.placeholder = minimalPrice;
+}
+
+function resetPriceAttrs(field) {
+  field.removeAttribute('min');
+  field.placeholder = 5000;
 }
 
 
 typeField.addEventListener('change', () => {
-  setPricePlaceholder();
+  setPricePlaceholder(priceField);
 });
 
 priceField.addEventListener('focus', () => {
-  setPricePlaceholder();
+  setPricePlaceholder(priceField);
 });
 
 document.querySelector('.ad-form__reset').addEventListener('click', () => {
-  priceField.removeAttribute('min');
-  priceField.placeholder = 5000;
+  resetPriceAttrs(priceField);
 });
