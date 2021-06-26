@@ -26,11 +26,13 @@ const MINIMAL_PRICE_FOR_RESIDENCE = [
 function getMinimalPrice() {
   const currentResidenceType = typeField.options[typeField.selectedIndex].value;
   const neededResidencePrice = MINIMAL_PRICE_FOR_RESIDENCE.find(  (value) => value.type === currentResidenceType);
+
   return neededResidencePrice.minPrice;
 }
 
 function setPricePlaceholder(field) {
   const minimalPrice = getMinimalPrice();
+
   field.min = minimalPrice;
   field.placeholder = minimalPrice;
 }
