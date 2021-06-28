@@ -38,4 +38,7 @@ function setActiveMode() {
 }
 
 setInactiveMode();
-setActiveMode();
+
+export {
+  setActiveMode
+};
