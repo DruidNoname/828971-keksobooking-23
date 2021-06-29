@@ -1,4 +1,4 @@
-import { createRandomOffers } from '../../data/data.js';
+import { randomOffers } from '../../data/data.js';
 const QUARTERS_TYPES_WITH_NAMES = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -9,8 +9,6 @@ const QUARTERS_TYPES_WITH_NAMES = {
 const popupBalloonTemplate = document.querySelector('#card')
   .content
   .querySelector('.popup');
-const map = document.querySelector('#map-canvas');
-const balloons = createRandomOffers(3);
 
 function setTypeOfQuarters(offerData, template) {
   for (const key in QUARTERS_TYPES_WITH_NAMES) {
@@ -45,11 +43,13 @@ function setPhotos(offerData, template) {
   const photoTemplate = popupPhotoBlock.querySelector('.popup__photo');
 
   if (offerData.offer.photos !== undefined && offerData.offer.photos.length !== 0) {
+
     offerData.offer.photos.forEach((photoLink) => {
       const popupPhoto = photoTemplate.cloneNode(true);
       popupPhoto.setAttribute('src', photoLink);
       popupPhotoBlock.appendChild(popupPhoto);
     });
+
     popupPhotoBlock.removeChild(photoTemplate);
   } else {
     popupPhotoBlock.remove();
@@ -66,24 +66,32 @@ function setAvatar(offerData, template) {
   }
 }
 
-function drawBalloons() {
-  balloons.forEach((offerData) => {
-    const popupBalloon = popupBalloonTemplate.cloneNode(true);
+function drawBalloon(offerData) {
+  const popupBalloon = popupBalloonTemplate.cloneNode(true);
 
-    popupBalloon.querySelector('.popup__title').textContent = offerData.offer.title;
-    popupBalloon.querySelector('.popup__text--address').textContent = offerData.offer.address;
-    popupBalloon.querySelector('.popup__text--price').textContent = offerData.offer.price;
-    popupBalloon.querySelector('.popup__text--capacity').textContent = `${offerData.offer.rooms} комнат для ${offerData.offer.guests} гостей`;
-    popupBalloon.querySelector('.popup__text--time').textContent = `Заезд после ${offerData.offer.checkin}, выезд до ${offerData.offer.checkout}`;
+  popupBalloon.querySelector('.popup__title').textContent = offerData.offer.title;
+  popupBalloon.querySelector('.popup__text--address').textContent = offerData.offer.address;
+  popupBalloon.querySelector('.popup__text--price').textContent = offerData.offer.price;
+  popupBalloon.querySelector('.popup__text--capacity').textContent = `${offerData.offer.rooms} комнат для ${offerData.offer.guests} гостей`;
+  popupBalloon.querySelector('.popup__text--time').textContent = `Заезд после ${offerData.offer.checkin}, выезд до ${offerData.offer.checkout}`;
 
-    setTypeOfQuarters(offerData, popupBalloon);
-    setFeatures(offerData, popupBalloon);
-    setDescription(offerData, popupBalloon);
-    setPhotos(offerData, popupBalloon);
-    setAvatar(offerData, popupBalloon);
+  setTypeOfQuarters(offerData, popupBalloon);
+  setFeatures(offerData, popupBalloon);
+  setDescription(offerData, popupBalloon);
+  setPhotos(offerData, popupBalloon);
+  setAvatar(offerData, popupBalloon);
 
-    map.appendChild(popupBalloon);
-  });
+  return popupBalloon;
 }
 
-drawBalloons();
+const randomBalloons = function() {
+  const balloonsArray = [];
+
+  randomOffers.forEach((value) => {
+    balloonsArray.push(drawBalloon(value));
+  });
+
+  return balloonsArray;
+};
+
+export { randomBalloons };

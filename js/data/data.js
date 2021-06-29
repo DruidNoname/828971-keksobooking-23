@@ -31,17 +31,20 @@ function createRandomArrayFromArray(array) {
     return array;
   };
   const newArrayLength = getRandomPositiveInteger(1, array.length - 1);
+
   return shuffledArray().slice(0, newArrayLength);
 }
 
 function getPlaceCoords() {
   const lat = getRandomPositiveFloat(35.65000, 35.70000, 5);
   const lng = getRandomPositiveFloat(139.70000, 139.80000, 5);
+
   return [lat, lng];
 }
 
 const createRentalAd = (value, index) => {
   const placeCoords = getPlaceCoords();
+
   return {
     author: {
       avatar: avatarLinks[index],
@@ -68,8 +71,32 @@ const createRentalAd = (value, index) => {
   };
 };
 
-export const createRandomOffers = function(quantity) {
+function createRandomOffers(quantity) {
   return new Array(quantity)
     .fill(null)
     .map(createRentalAd);
+}
+
+function getCoordsFromRandomOffers(offersArray) {
+  const pointsArray = [];
+
+  for (const offerData of offersArray) {
+    const coords = {
+      lat: offerData.offer.location.lat,
+      lng: offerData.offer.location.lng,
+    };
+    pointsArray.push(coords);
+  }
+
+  return pointsArray;
+}
+
+
+const randomOffers = createRandomOffers(9);
+
+const points = getCoordsFromRandomOffers(randomOffers);
+
+export {
+  randomOffers,
+  points
 };
