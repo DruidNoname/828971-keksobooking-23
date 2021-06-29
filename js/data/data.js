@@ -81,10 +81,11 @@ function getCoordsFromRandomOffers(offersArray) {
   const pointsArray = [];
 
   for (const offerData of offersArray) {
-    const thisCoords = {};
-    thisCoords.lat = offerData.offer.location.lat;
-    thisCoords.lng = offerData.offer.location.lng;
-    pointsArray.push(thisCoords);
+    const coords = {
+      lat: offerData.offer.location.lat,
+      lng: offerData.offer.location.lng,
+    };
+    pointsArray.push(coords);
   }
 
   return pointsArray;

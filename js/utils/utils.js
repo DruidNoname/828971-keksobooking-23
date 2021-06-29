@@ -47,15 +47,7 @@ function getRandomPositiveFloat (a, b, digits = 1) {
   return result.toFixed(digits);
 }
 
-function decimalAdjust(number, digits) {
-  const multiplier = Math.pow(10, digits);
-
-  return Math.round(number*multiplier)/multiplier;
-}
-
-
 export {
   getRandomPositiveInteger,
-  getRandomPositiveFloat,
-  decimalAdjust
+  getRandomPositiveFloat
 };

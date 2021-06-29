@@ -25,11 +25,12 @@ L.tileLayer(
   },
 ).addTo(map);
 
-const userMarkerIcon = L.icon({
-  iconUrl: '../../img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
-});
+const userMarkerIcon = L.icon(
+  {
+    iconUrl: '../../img/main-pin.svg',
+    iconSize: [52, 52],
+    iconAnchor: [26, 52],
+  });
 
 const userMarker = L.marker(
   {
@@ -42,11 +43,12 @@ const userMarker = L.marker(
   },
 );
 
-const customOfferMarkerIcon = L.icon({
-  iconUrl: '../../img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-});
+const customOfferMarkerIcon = L.icon(
+  {
+    iconUrl: '../../img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
 
 userMarker.on('moveend', (evt) => {
   const address = document.querySelector('#address');
