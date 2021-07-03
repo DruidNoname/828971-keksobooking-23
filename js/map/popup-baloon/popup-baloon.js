@@ -1,4 +1,3 @@
-import { randomOffers } from '../../data/data.js';
 const QUARTERS_TYPES_WITH_NAMES = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -66,6 +65,7 @@ function setAvatar(offerData, template) {
   }
 }
 
+//здесь надо заменить имеющееся получением с сервера
 function drawBalloon(offerData) {
   const popupBalloon = popupBalloonTemplate.cloneNode(true);
 
@@ -84,14 +84,4 @@ function drawBalloon(offerData) {
   return popupBalloon;
 }
 
-const randomBalloons = function() {
-  const balloonsArray = [];
-
-  randomOffers.forEach((value) => {
-    balloonsArray.push(drawBalloon(value));
-  });
-
-  return balloonsArray;
-};
-
-export { randomBalloons };
+export { drawBalloon };

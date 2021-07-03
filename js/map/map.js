@@ -1,22 +1,21 @@
-import '../utils/utils.js';
-import '../server/server.js';
-import './filter/filter.js';
+import '../form/form.js';
 import './map-labels/map-labels.js';
 import './popup-baloon/popup-baloon.js';
-import { points } from '../data/data.js';
-import { setActiveMode } from '../form/form.js';
+import { getData } from '../server/server.js';
+import { makeActive } from '../modes/active-mode.js';
 import { setAddressField } from '../form/tools/address.js';
-import { randomBalloons } from './popup-baloon/popup-baloon.js';
+import { showAlert } from '../utils/utils.js';
+import { drawBalloon } from './popup-baloon/popup-baloon.js';
+
+const USER_MARKER_COORDS = L.latLng(35.6825, 139.75276);
+const MAP_SCALE = 13;
 
 const map =  L.map('map-canvas')
   .on('load', () => {
-    setActiveMode();
+    makeActive();
   })
 
-  .setView({
-    lat: 35.6825,
-    lng: 139.75276,
-  }, 13);
+  .setView(USER_MARKER_COORDS, MAP_SCALE);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -33,22 +32,12 @@ const userMarkerIcon = L.icon(
   });
 
 const userMarker = L.marker(
-  {
-    lat: 35.6825,
-    lng: 139.75276,
-  },
+  USER_MARKER_COORDS,
   {
     draggable: true,
     icon: userMarkerIcon,
   },
 );
-
-const customOfferMarkerIcon = L.icon(
-  {
-    iconUrl: '../../img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
 
 userMarker.on('moveend', (evt) => {
   const address = document.querySelector('#address');
@@ -59,11 +48,23 @@ userMarker.on('moveend', (evt) => {
 
 userMarker.addTo(map);
 
-points.forEach(({lat, lng}, index) => {
+const resetMapAndMarkerPosition = () => {
+  userMarker.setLatLng(USER_MARKER_COORDS);
+  map.setView(USER_MARKER_COORDS, MAP_SCALE);
+};
+
+const customOfferMarkerIcon = L.icon(
+  {
+    iconUrl: '../../img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
+
+const createRandomMarker = (value) => {
   const customOffermarker = L.marker(
     {
-      lat,
-      lng,
+      lat: value.location.lat,
+      lng: value.location.lng,
     },
     {
       icon: customOfferMarkerIcon,
@@ -73,6 +74,20 @@ points.forEach(({lat, lng}, index) => {
   customOffermarker
     .addTo(map)
     .bindPopup(
-      randomBalloons()[index],
+      drawBalloon(value),
     );
-});
+};
+
+
+const randomBalloons = function(offers) {
+  offers.forEach((value) => {
+    createRandomMarker(value);
+  });
+};
+
+getData( (rentalAds) => randomBalloons(rentalAds.slice(0, 10)), (message) => showAlert(message));
+
+export {
+  resetMapAndMarkerPosition,
+  USER_MARKER_COORDS
+};

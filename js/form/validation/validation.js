@@ -3,7 +3,6 @@ import {capacity, equalizeGuestsToRooms, roomsNumber} from '../tools/guest.js';
 const offerTitleInput = document.querySelector('#title');
 const offerPriceInput = document.querySelector('#price');
 const offerSendButton = document.querySelector('.ad-form__submit');
-const offerForm = document.querySelector('.ad-form');
 let roomsCurrentOption = roomsNumber.options[roomsNumber.selectedIndex];
 let capacityCurrentOption = capacity.options[capacity.selectedIndex];
 
@@ -57,6 +56,5 @@ offerSendButton.addEventListener('click', () => {
     capacity.setCustomValidity('Количество гостей не соответствует заявленному количеству комнат');
     return;
   }
-
-  offerForm.submit();
+  return true;
 });
