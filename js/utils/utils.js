@@ -37,9 +37,7 @@ function setActiveMode(form, formFields, disabledClassName) {
   }
 }
 
-const isEscEvent = (evt) => {
-  return evt.key === 'Escape' || evt.key === 'Esc';
-};
+const isEscEvent = (evt) =>  evt.key === 'Escape' || evt.key === 'Esc';
 
 const addClosingMessageByClick = (messageContainer) => {
   messageContainer.addEventListener('click', (evt) => {
