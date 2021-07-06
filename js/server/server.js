@@ -5,13 +5,13 @@ const getData = (onSuccess, onFail) => {
         return response;
       }
 
-      throw new Error('Наташа, мы всё уронили');
+      throw new Error('Ошибка загрузки похожих объявлений');
     })
     .then((response) => response.json())
     .then((rentalAds) => {
       onSuccess(rentalAds);
     })
-    .catch((error = 'Мы уронили вообще всё, Наташ') => {
+    .catch((error = 'Ошибка загрузки похожих объявлений') => {
       onFail(error);
     });
 };
@@ -28,11 +28,11 @@ const sendData = (onSuccess, onFail, formData) => {
       if (response.ok) {
         onSuccess();
       } else {
-        onFail('Не удалось отправить форму. Попробуйте ещё раз');
+        onFail();
       }
     })
     .catch(() => {
-      onFail('Не удалось отправить форму. Попробуйте ещё раз');
+      onFail();
     });
 };
 

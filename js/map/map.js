@@ -1,11 +1,11 @@
 import '../form/form.js';
-import './map-labels/map-labels.js';
-import './popup-baloon/popup-baloon.js';
+import './map-labels.js';
+import './popup-baloon.js';
 import { getData } from '../server/server.js';
 import { makeActive } from '../modes/active-mode.js';
-import { setAddressField } from '../form/tools/address.js';
+import { setAddressField } from '../form/address.js';
 import { showAlert } from '../utils/utils.js';
-import { drawBalloon } from './popup-baloon/popup-baloon.js';
+import { drawBalloon } from './popup-baloon.js';
 
 const USER_MARKER_COORDS = L.latLng(35.6825, 139.75276);
 const MAP_SCALE = 13;
@@ -48,7 +48,7 @@ userMarker.on('moveend', (evt) => {
 
 userMarker.addTo(map);
 
-const resetMapAndMarkerPosition = () => {
+const setInitialMarkerPosition = () => {
   userMarker.setLatLng(USER_MARKER_COORDS);
   map.setView(USER_MARKER_COORDS, MAP_SCALE);
 };
@@ -88,6 +88,6 @@ const randomBalloons = function(offers) {
 getData( (rentalAds) => randomBalloons(rentalAds.slice(0, 10)), (message) => showAlert(message));
 
 export {
-  resetMapAndMarkerPosition,
+  setInitialMarkerPosition,
   USER_MARKER_COORDS
 };

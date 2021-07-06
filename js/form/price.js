@@ -39,7 +39,7 @@ function setPricePlaceholder(field) {
   field.placeholder = minimalPrice;
 }
 
-function resetPriceAttrs(field) {
+function setInitialPriceAttrs(field) {
   field.removeAttribute('min');
   field.placeholder = PRICE_PLACEHOLDER;
 }
@@ -53,6 +53,6 @@ priceField.addEventListener('focus', () => {
 });
 
 export {
-  resetPriceAttrs,
+  setInitialPriceAttrs,
   priceField
 };

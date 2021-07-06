@@ -1,10 +1,10 @@
 import '../server/server.js';
-import './validation/validation.js';
-import './tools/address.js';
-import './tools/checkin.js';
-import './tools/price.js';
-import './tools/guest.js';
-import { resetForm } from './clear/clear.js';
+import './validation.js';
+import './address.js';
+import './checkin.js';
+import './price.js';
+import './guest.js';
+import { resetForm } from './clear.js';
 import { sendData } from '../server/server.js';
 import { showMessage } from '../utils/utils.js';
 

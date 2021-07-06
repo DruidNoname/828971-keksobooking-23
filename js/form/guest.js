@@ -49,8 +49,17 @@ capacity.addEventListener('change', () => {
   equalizeRoomsToGuests(capacity, roomsNumber);
 });
 
+function resetDisabledAttr(field) {
+  for (const item of field.options) {
+    item.removeAttribute('disabled');
+  }
+  console.log(field.options[field.selectedIndex].value);
+}
+
+
 export {
   equalizeGuestsToRooms,
+  resetDisabledAttr,
   roomsNumber,
   capacity
 };

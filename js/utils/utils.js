@@ -1,3 +1,5 @@
+const ALERT_PERIOD = 8000;
+
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = 100;
@@ -18,7 +20,7 @@ const showAlert = (message) => {
 
   setTimeout(() => {
     alertContainer.remove();
-  }, 8000);
+  }, ALERT_PERIOD);
 };
 
 function setInactiveMode(form, formFields, disabledClassName) {
@@ -82,11 +84,14 @@ const showMessage = (outerContainer, innerContainer) => {
   document.querySelector('body').appendChild(newSign);
 };
 
+const getCurrentOption = (select) => {
+  return select.options[select.selectedIndex];
+};
+
 export {
   showMessage,
   showAlert,
   setInactiveMode,
-  setActiveMode
+  setActiveMode,
+  getCurrentOption
 };
-
-
