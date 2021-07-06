@@ -1,10 +1,11 @@
 import { setInitialPriceAttrs, priceField } from './price.js';
 import { setInitialCoords } from './address.js';
 import {
-  resetDisabledAttr,
   roomsNumber,
   capacity
 } from './guest.js';
+import { resetDisabledAttr } from '../utils/utils.js';
+
 
 import { setInitialMarkerPosition } from '../map/map.js';
 

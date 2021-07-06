@@ -84,14 +84,19 @@ const showMessage = (outerContainer, innerContainer) => {
   document.querySelector('body').appendChild(newSign);
 };
 
-const getCurrentOption = (select) => {
-  return select.options[select.selectedIndex];
-};
+const getCurrentOption = (select) => select.options[select.selectedIndex];
+
+function resetDisabledAttr(field) {
+  for (const item of field.options) {
+    item.removeAttribute('disabled');
+  }
+}
 
 export {
   showMessage,
   showAlert,
   setInactiveMode,
   setActiveMode,
-  getCurrentOption
+  getCurrentOption,
+  resetDisabledAttr
 };
