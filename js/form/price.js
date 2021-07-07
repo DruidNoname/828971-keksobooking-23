@@ -23,6 +23,8 @@ const MINIMAL_PRICE_FOR_RESIDENCE = [
   },
 ];
 
+const PRICE_PLACEHOLDER = 5000;
+
 function getMinimalPrice() {
   const currentResidenceType = typeField.options[typeField.selectedIndex].value;
   const neededResidencePrice = MINIMAL_PRICE_FOR_RESIDENCE.find(  (value) => value.type === currentResidenceType);
@@ -37,11 +39,10 @@ function setPricePlaceholder(field) {
   field.placeholder = minimalPrice;
 }
 
-function resetPriceAttrs(field) {
+function setInitialPriceAttrs(field) {
   field.removeAttribute('min');
-  field.placeholder = 5000;
+  field.placeholder = PRICE_PLACEHOLDER;
 }
-
 
 typeField.addEventListener('change', () => {
   setPricePlaceholder(priceField);
@@ -51,6 +52,7 @@ priceField.addEventListener('focus', () => {
   setPricePlaceholder(priceField);
 });
 
-document.querySelector('.ad-form__reset').addEventListener('click', () => {
-  resetPriceAttrs(priceField);
-});
+export {
+  setInitialPriceAttrs,
+  priceField
+};

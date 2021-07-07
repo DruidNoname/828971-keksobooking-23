@@ -1,3 +1,9 @@
+import {
+  USER_MARKER_COORDS
+} from '../map/map.js';
+
+const address = document.querySelector('#address');
+
 function getRoundedCoords(coords) {
   const coordsValueArray = Object.values(coords);
   return coordsValueArray.map((value) => value.toFixed(5));
@@ -13,6 +19,13 @@ function setAddressField(coords, field) {
   field.value = makeStringFromRoundedCoords(coords);
 }
 
+const setInitialCoords = () => {
+  setAddressField(USER_MARKER_COORDS, address);
+};
+
+setInitialCoords();
+
 export {
+  setInitialCoords,
   setAddressField
 };

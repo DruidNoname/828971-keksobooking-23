@@ -1,17 +1,17 @@
-import {capacity, equalizeGuestsToRooms, roomsNumber} from '../tools/guest.js';
+import {capacity, equalizeGuestsToRooms, roomsNumber} from './guest.js';
+import { getCurrentOption } from '../utils/utils.js';
 
 const offerTitleInput = document.querySelector('#title');
 const offerPriceInput = document.querySelector('#price');
 const offerSendButton = document.querySelector('.ad-form__submit');
-const offerForm = document.querySelector('.ad-form');
-let roomsCurrentOption = roomsNumber.options[roomsNumber.selectedIndex];
-let capacityCurrentOption = capacity.options[capacity.selectedIndex];
 
 offerTitleInput.addEventListener('invalid', () => {
   if (offerTitleInput.validity.valueMissing) {
     offerTitleInput.setCustomValidity('Название помещения обязательно для заполнения');
   } else if (offerTitleInput.validity.tooShort) {
-    offerTitleInput.setCustomValidity('Название помещения должно состоять минимум из 30 символов');
+    offerTitleInput.setCustomValidity('Название помещения должно содержать не менее 30 символов');
+  } else if (offerTitleInput.validity.tooLong) {
+    offerTitleInput.setCustomValidity('Название помещения должно содержать не более 100 символов');
   } else {
     offerTitleInput.setCustomValidity('');
   }
@@ -27,26 +27,10 @@ offerPriceInput.addEventListener('invalid', () => {
   }
 });
 
-capacity.addEventListener('invalid', () => {
-  if (capacityCurrentOption.hasAttribute('disabled')) {
-    capacity.setCustomValidity('Количество гостей не соответствует заявленному количеству комнат');
-  } else {
-    capacity.setCustomValidity('');
-  }
-});
-
-roomsNumber.addEventListener('change', () => {
-  roomsCurrentOption = roomsNumber.options[roomsNumber.selectedIndex];
-});
-
-capacity.addEventListener('change', () => {
-  capacityCurrentOption = capacity.options[capacity.selectedIndex];
-
-  capacity.setCustomValidity('');
-});
-
 offerSendButton.addEventListener('click', () => {
   equalizeGuestsToRooms(roomsNumber, capacity);
+  const roomsCurrentOption = getCurrentOption(roomsNumber);
+  const capacityCurrentOption = getCurrentOption(capacity);
 
   if (roomsCurrentOption.hasAttribute('disabled')) {
     roomsNumber.setCustomValidity('Количество комнат не соответствует заявленному количеству гостей');
@@ -58,5 +42,6 @@ offerSendButton.addEventListener('click', () => {
     return;
   }
 
-  offerForm.submit();
+  roomsNumber.setCustomValidity('');
+  capacity.setCustomValidity('');
 });
