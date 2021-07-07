@@ -6,6 +6,7 @@ import { makeActive } from '../modes/active-mode.js';
 import { setAddressField } from '../form/address.js';
 import { showAlert } from '../utils/utils.js';
 import { drawBalloon } from './popup-baloon.js';
+import { sortingAds } from './filter.js';
 
 const USER_MARKER_COORDS = L.latLng(35.6825, 139.75276);
 const MAP_SCALE = 13;
@@ -79,10 +80,12 @@ const createRandomMarker = (value) => {
 };
 
 
-const randomBalloons = function(offers) {
-  offers.forEach((value) => {
-    createRandomMarker(value);
-  });
+const randomBalloons = function(ads) {
+  markerGroup.clearLayers();
+  sortingAds(ads)
+    .forEach((value) => {
+      createRandomMarker(value);
+    });
 };
 
 getData( (rentalAds) => randomBalloons(rentalAds.slice(0, 10)), (message) => showAlert(message));
