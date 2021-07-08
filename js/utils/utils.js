@@ -43,7 +43,7 @@ const isEscEvent = (evt) =>  evt.key === 'Escape' || evt.key === 'Esc';
 
 const addClosingMessageByClick = (messageContainer) => {
   messageContainer.addEventListener('click', (evt) => {
-    evt.target.remove();
+    evt.currentTarget.remove();
   });
 };
 

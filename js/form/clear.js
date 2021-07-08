@@ -7,21 +7,27 @@ import {
 import { resetDisabledAttr } from '../utils/utils.js';
 
 
-import { setInitialMarkerPosition } from '../map/map.js';
+import {
+  setInitialMarkerPosition,
+  createAdMarkers,
+} from '../map/map.js';
 
-const resetForm = (form) => {
-  form.reset();
+const resetForm = (upperForm, lowerForm) => {
+  upperForm.reset();
+  lowerForm.reset();
   setInitialPriceAttrs(priceField);
   setInitialMarkerPosition();
   resetDisabledAttr(roomsNumber);
   resetDisabledAttr(capacity);
   setInitialCoords();
+  createAdMarkers();
 };
 
 document.querySelector('.ad-form__reset').addEventListener('click', (evt) => {
   evt.preventDefault();
-  const form = evt.target.closest('form');
-  resetForm(form);
+  const upperForm = document.querySelector('.ad-form');
+  const lowerForm = document.querySelector('.map__filters');
+  resetForm(upperForm, lowerForm);
 });
 
 export { resetForm };

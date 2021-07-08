@@ -5,7 +5,7 @@ import {
 const offerForm = document.querySelector('.ad-form');
 const offerFormFields = offerForm.querySelectorAll('fieldset');
 const filtersForm = document.querySelector('.map__filters');
-const filtersFormFields = filtersForm.querySelectorAll('fieldset');
+const filtersFormFields = filtersForm.children;
 
 const activateForms = () => {
   setActiveMode(offerForm, offerFormFields, 'ad-form--disabled');

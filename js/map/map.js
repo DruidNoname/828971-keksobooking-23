@@ -89,10 +89,14 @@ const randomBalloons = function(ads) {
     });
 };
 
-getData( (rentalAds) => randomBalloons(rentalAds.slice(0, 10)), (message) => showAlert(message));
+const createAdMarkers = () => {
+  getData( (rentalAds) => randomBalloons(rentalAds.slice(0, 10)), (message) => showAlert(message));
+};
+createAdMarkers();
 
 export {
   setInitialMarkerPosition,
   randomBalloons,
+  createAdMarkers,
   USER_MARKER_COORDS
 };
