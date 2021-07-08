@@ -2,7 +2,7 @@ import '../form/form.js';
 import './map-labels.js';
 import './popup-baloon.js';
 import { getData } from '../server/server.js';
-import { makeActive } from '../modes/active-mode.js';
+import { activateForms } from '../modes/active-mode.js';
 import { setAddressField } from '../form/address.js';
 import { showAlert } from '../utils/utils.js';
 import { drawBalloon } from './popup-baloon.js';
@@ -13,10 +13,12 @@ const MAP_SCALE = 13;
 
 const map =  L.map('map-canvas')
   .on('load', () => {
-    makeActive();
+    activateForms();
   })
 
   .setView(USER_MARKER_COORDS, MAP_SCALE);
+
+const markerGroup = L.layerGroup().addTo(map);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -73,12 +75,11 @@ const createRandomMarker = (value) => {
   );
 
   customOffermarker
-    .addTo(map)
+    .addTo(markerGroup)
     .bindPopup(
       drawBalloon(value),
     );
 };
-
 
 const randomBalloons = function(ads) {
   markerGroup.clearLayers();
@@ -92,5 +93,6 @@ getData( (rentalAds) => randomBalloons(rentalAds.slice(0, 10)), (message) => sho
 
 export {
   setInitialMarkerPosition,
+  randomBalloons,
   USER_MARKER_COORDS
 };

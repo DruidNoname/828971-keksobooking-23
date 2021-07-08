@@ -1,6 +1,6 @@
-import {getData} from './server/server.js';
-import {randomBalloons} from './map/map.js';
-import {showAlert} from './utils/utils.js';
+import {getData} from '../server/server.js';
+import {randomBalloons} from '../map/map.js';
+import {showAlert} from '../utils/utils.js';
 
 const NUMBER_OF_MARKERS = 10;
 
