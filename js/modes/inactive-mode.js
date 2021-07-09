@@ -1,12 +1,10 @@
 import {
-  setInactiveMode
+  setInactiveMode,
+  filtersForm,
+  filtersFormFields,
+  offerForm,
+  offerFormFields
 } from '../utils/utils.js';
-
-const offerForm = document.querySelector('.ad-form');
-const offerFormFields = offerForm.querySelectorAll('fieldset');
-const filtersForm = document.querySelector('.map__filters');
-const filtersFormFields = filtersForm.children;
-
 
 setInactiveMode(offerForm, offerFormFields, 'ad-form--disabled');
 

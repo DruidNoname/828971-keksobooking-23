@@ -4,24 +4,29 @@ import './address.js';
 import './checkin.js';
 import './price.js';
 import './guest.js';
-import { resetForm } from './clear.js';
+import { clearFormsAndMarkers } from './clear.js';
 import { sendData } from '../server/server.js';
 import { showMessage } from '../utils/utils.js';
 
 const offerForm = document.querySelector('.ad-form');
-const lowerForm = document.querySelector('.map__filters');
+const offerFormFields = offerForm.querySelectorAll('fieldset');
 
-const isSuccessSendingForm = (upperForm, lowerForm) => {
+const isSuccessSendingForm = () => {
   showMessage('#success', '.success');
-  resetForm(upperForm, lowerForm);
+  clearFormsAndMarkers();
 };
 
 offerForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   sendData(
-    () => isSuccessSendingForm(evt.target, lowerForm),
+    () => isSuccessSendingForm(),
     () => showMessage('#error', '.error'),
     new FormData(evt.target),
   );
 });
+
+export {
+  offerForm,
+  offerFormFields
+}

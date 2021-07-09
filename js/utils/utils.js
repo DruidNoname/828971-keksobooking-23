@@ -1,6 +1,11 @@
 const ALERT_PERIOD = 8000;
 
-const showAlert = (message) => {
+const offerForm = document.querySelector('.ad-form');
+const offerFormFields = offerForm.querySelectorAll('fieldset');
+const filtersForm = document.querySelector('.map__filters');
+const filtersFormFields = filtersForm.children;
+
+function showAlert(message) {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = 100;
   alertContainer.style.position = 'absolute';
@@ -21,7 +26,7 @@ const showAlert = (message) => {
   setTimeout(() => {
     alertContainer.remove();
   }, ALERT_PERIOD);
-};
+}
 
 function setInactiveMode(form, formFields, disabledClassName) {
   form.classList.add(disabledClassName);
@@ -39,41 +44,53 @@ function setActiveMode(form, formFields, disabledClassName) {
   }
 }
 
-const isEscEvent = (evt) =>  evt.key === 'Escape' || evt.key === 'Esc';
+const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
-const addClosingMessageByClick = (messageContainer) => {
-  messageContainer.addEventListener('click', (evt) => {
-    evt.currentTarget.remove();
+function listenOnEscape(evt, messageContainer) {
+  if (isEscEvent(evt)) {
+    evt.preventDefault();
+    messageContainer.remove();
+  }
+}
+
+function addClosingMessageByEsc(cb) {
+  document.addEventListener('keydown', cb, {once: true});
+}
+
+function removeClosingMessageListener(cb) {
+  document.removeEventListener('keydown', cb, {once: true});
+}
+
+function closeMessage(messageContainer, cb) {
+  removeClosingMessageListener(cb);
+  messageContainer.remove();
+}
+
+function addClosingMessageByClick(messageContainer, cb) {
+  messageContainer.addEventListener('click', () => {
+    closeMessage(messageContainer, cb);
   });
-};
+}
 
-const addClosingMessageByEsc = (messageContainer) => {
-  document.addEventListener('keydown', (evt) => {
-    if (isEscEvent(evt)) {
-      evt.preventDefault();
-      messageContainer.remove();
-    }
+function addClosingMessageByButton(button, messageContainer, cb) {
+  messageContainer.addEventListener('click', () => {
+    closeMessage(messageContainer, cb);
   });
-};
+}
 
-const addClosingMessageByButton = (button) => {
-  button.addEventListener('click', (evt) => {
-    evt.target.closest('div').remove();
-  });
-};
-
-const addClosingMessage = (removingElement) => {
+function addClosingMessage(removingElement) {
   const button = removingElement.querySelector('.error__button');
+  const handlerForEscEvent = (evt) => listenOnEscape(evt, removingElement);
 
   if (button) {
-    addClosingMessageByButton(button);
+    addClosingMessageByButton(button, removingElement, handlerForEscEvent);
   }
 
-  addClosingMessageByEsc(removingElement);
-  addClosingMessageByClick(removingElement);
-};
+  addClosingMessageByEsc(handlerForEscEvent);
+  addClosingMessageByClick(removingElement, handlerForEscEvent);
+}
 
-const showMessage = (outerContainer, innerContainer) => {
+function showMessage(outerContainer, innerContainer) {
   const messageTemplate = document.querySelector(outerContainer)
     .content
     .querySelector(innerContainer);
@@ -82,7 +99,7 @@ const showMessage = (outerContainer, innerContainer) => {
   addClosingMessage(newSign);
 
   document.querySelector('body').appendChild(newSign);
-};
+}
 
 const getCurrentOption = (select) => select.options[select.selectedIndex];
 
@@ -93,6 +110,10 @@ function resetDisabledAttr(field) {
 }
 
 export {
+  offerForm,
+  offerFormFields,
+  filtersForm,
+  filtersFormFields,
   showMessage,
   showAlert,
   setInactiveMode,

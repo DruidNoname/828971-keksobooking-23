@@ -5,76 +5,134 @@ const QUARTERS_TYPES_WITH_NAMES = {
   palace: 'Дворец',
   hotel: 'Отель',
 };
+
 const popupBalloonTemplate = document.querySelector('#card')
   .content
   .querySelector('.popup');
 
-function setTypeOfQuarters(offerData, template) {
+const existsAndFilled = (dataItem) => dataItem && dataItem.length !== 0;
+
+const getContainer = (template, selector) => template.querySelector(selector);
+
+const fillContainer = (offerDataItem, container, fillingFunction) => {
+  if (existsAndFilled(offerDataItem)) {
+    fillingFunction();
+  } else {
+    container.remove();
+  }
+};
+
+const setTypeOfQuarters = (offerData, template) => {
   for (const key in QUARTERS_TYPES_WITH_NAMES) {
     if (key === offerData.offer.type) {
       template.querySelector('.popup__type').textContent = QUARTERS_TYPES_WITH_NAMES[key];
     }
   }
-}
+};
 
-function setFeatures(offerData, template) {
+const setTitle = (offerData, template) => {
+  const titleTemplate = getContainer(template, '.popup__title');
+  const titleData = offerData.offer.title;
+
+  fillContainer(titleData, titleTemplate, () => titleTemplate.textContent = titleData);
+};
+
+const setAddress = (offerData, template) => {
+  const addressTemplate = getContainer(template, '.popup__text--address');
+  const addressData = offerData.offer.address;
+
+  fillContainer(addressData, addressTemplate, () => addressTemplate.textContent = addressData);
+};
+
+const setPrice = (offerData, template) => {
+  const priceTemplate = getContainer(template, '.popup__text--price');
+  const priceData = offerData.offer.price;
+
+  fillContainer(priceData, priceTemplate, () => priceTemplate.textContent = priceData);
+};
+
+const setCapacity = (offerData, template) => {
+  const capacityTemplate = getContainer(template, '.popup__text--capacity');
+  const capacityData = offerData.offer.guests;
+  const roomsData = offerData.offer.rooms;
+
+  if (existsAndFilled(roomsData)) {
+    fillContainer(capacityData, capacityTemplate, () => capacityTemplate.textContent = `${roomsData} комнат для ${capacityData} гостей`);
+  } else {
+    capacityTemplate.remove();
+  }
+};
+
+const setCheckin = (offerData, template) => {
+  const timeTemplate = getContainer(template, '.popup__text--time');
+  const checkinData = offerData.offer.checkin;
+  const checkoutData = offerData.offer.checkout;
+
+  if (existsAndFilled(checkoutData)) {
+    fillContainer(checkinData, timeTemplate, () => `Заезд после ${checkinData}, выезд до ${checkoutData}`);
+  } else {
+    timeTemplate.remove();
+  }
+};
+
+const setFeatures = (offerData, template) => {
   const featuresTemplate = template.querySelector('.popup__features');
+  const featuresData = offerData.offer.features;
 
-  if (offerData.offer.features !== undefined && offerData.offer.features.length !== 0) {
-    featuresTemplate.textContent = offerData.offer.features.join(', ');
-  } else {
-    featuresTemplate.remove();
-  }
-}
+  fillContainer(featuresData, featuresTemplate, () => featuresTemplate.textContent = offerData.offer.features.join(', '));
+};
 
-function setDescription(offerData, template) {
+const setDescription = (offerData, template) => {
   const descriptionTemplate = template.querySelector('.popup__description');
+  const descriptionData = offerData.offer.description;
 
-  if (offerData.offer.description !== undefined && offerData.offer.description.length !== 0) {
-    descriptionTemplate.textContent = offerData.offer.description;
-  } else {
-    descriptionTemplate.remove();
-  }
-}
+  fillContainer(descriptionData, descriptionTemplate, () => descriptionTemplate.textContent = offerData.offer.description);
+};
 
-function setPhotos(offerData, template) {
+const setPhotos = (offerData, template) => {
   const popupPhotoBlock = template.querySelector('.popup__photos');
   const photoTemplate = popupPhotoBlock.querySelector('.popup__photo');
+  const photosData = offerData.offer.photos;
 
-  if (offerData.offer.photos !== undefined && offerData.offer.photos.length !== 0) {
+  fillContainer(
+    photosData,
+    photoTemplate,
+    () => {
+      if (existsAndFilled(photosData)) {
 
-    offerData.offer.photos.forEach((photoLink) => {
-      const popupPhoto = photoTemplate.cloneNode(true);
-      popupPhoto.setAttribute('src', photoLink);
-      popupPhotoBlock.appendChild(popupPhoto);
-    });
+        photosData.forEach((photoLink) => {
+          const popupPhoto = photoTemplate.cloneNode(true);
+          popupPhoto.setAttribute('src', photoLink);
+          popupPhotoBlock.appendChild(popupPhoto);
+        });
 
-    popupPhotoBlock.removeChild(photoTemplate);
-  } else {
-    popupPhotoBlock.remove();
-  }
-}
+        popupPhotoBlock.removeChild(photoTemplate);
+      } else {
+        popupPhotoBlock.remove();
+      }
+    },
+  );
+};
 
-function setAvatar(offerData, template) {
+const setAvatar = (offerData, template) => {
   const avatarTemplate = template.querySelector('.popup__avatar');
 
-  if (offerData.author.avatar !== undefined && offerData.author.avatar.length !== 0) {
+  if (existsAndFilled(offerData.author.avatar)) {
     avatarTemplate.setAttribute('src', offerData.author.avatar);
   } else {
     avatarTemplate.remove();
   }
-}
+};
 
 //здесь надо заменить имеющееся получением с сервера
 function drawBalloon(offerData) {
   const popupBalloon = popupBalloonTemplate.cloneNode(true);
 
-  popupBalloon.querySelector('.popup__title').textContent = offerData.offer.title;
-  popupBalloon.querySelector('.popup__text--address').textContent = offerData.offer.address;
-  popupBalloon.querySelector('.popup__text--price').textContent = offerData.offer.price;
-  popupBalloon.querySelector('.popup__text--capacity').textContent = `${offerData.offer.rooms} комнат для ${offerData.offer.guests} гостей`;
-  popupBalloon.querySelector('.popup__text--time').textContent = `Заезд после ${offerData.offer.checkin}, выезд до ${offerData.offer.checkout}`;
-
+  setTitle(offerData, popupBalloon);
+  setAddress(offerData, popupBalloon);
+  setPrice(offerData, popupBalloon);
+  setCapacity(offerData, popupBalloon);
+  setCheckin(offerData, popupBalloon);
   setTypeOfQuarters(offerData, popupBalloon);
   setFeatures(offerData, popupBalloon);
   setDescription(offerData, popupBalloon);

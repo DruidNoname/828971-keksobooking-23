@@ -4,15 +4,19 @@ import {
   roomsNumber,
   capacity
 } from './guest.js';
-import { resetDisabledAttr } from '../utils/utils.js';
+import {
+  resetDisabledAttr,
+  filtersForm,
+  offerForm
+} from '../utils/utils.js';
 
 
 import {
   setInitialMarkerPosition,
-  createAdMarkers,
+  createAdMarkers
 } from '../map/map.js';
 
-const resetForm = (upperForm, lowerForm) => {
+const resetForms = (upperForm, lowerForm) => {
   upperForm.reset();
   lowerForm.reset();
   setInitialPriceAttrs(priceField);
@@ -23,11 +27,12 @@ const resetForm = (upperForm, lowerForm) => {
   createAdMarkers();
 };
 
+const clearFormsAndMarkers = () => resetForms(filtersForm, offerForm);
+
 document.querySelector('.ad-form__reset').addEventListener('click', (evt) => {
   evt.preventDefault();
-  const upperForm = document.querySelector('.ad-form');
-  const lowerForm = document.querySelector('.map__filters');
-  resetForm(upperForm, lowerForm);
+
+  clearFormsAndMarkers();
 });
 
-export { resetForm };
+export { clearFormsAndMarkers };
