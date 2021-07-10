@@ -1,3 +1,13 @@
+import {showAlert} from '../utils/utils.js';
+import {
+  createInitialMarkers,
+  mapLoading
+} from '../map/map.js';
+import { activateForms } from '../modes/active-mode.js';
+import {
+  initFilters
+} from '../map/filter.js';
+
 const getData = (onSuccess, onFail) => {
   fetch('https://23.javascript.pages.academy/keksobooking/data' +
     ' ')
@@ -37,8 +47,23 @@ const sendData = (onSuccess, onFail, formData) => {
     });
 };
 
+const getAddsAndActivateFilters = (rentalAds) => {
+  const fullAdsAssortiment = rentalAds.slice();
+  createInitialMarkers(fullAdsAssortiment);
+  initFilters(fullAdsAssortiment);
+};
+
+const getAdsFromServer = () => {
+  getData((rentalAds) => getAddsAndActivateFilters(rentalAds),(message) => showAlert(message));
+};
+
+mapLoading()
+  .then(getAdsFromServer)
+  .then(activateForms)
+  .catch(showAlert);
+
 export {
-  getData,
+  getAdsFromServer,
   sendData
 };
 

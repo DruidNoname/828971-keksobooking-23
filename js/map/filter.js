@@ -1,6 +1,8 @@
-import {getData} from '../server/server.js';
-import {randomBalloons} from '../map/map.js';
-import {showAlert} from '../utils/utils.js';
+import {
+  createAdMarkers,
+  clearAdMarkers
+} from '../map/map.js';
+import {createInitialMarkers} from '../map/map.js';
 
 const NUMBER_OF_MARKERS = 10;
 
@@ -22,11 +24,6 @@ const residenceType = document.querySelector('#housing-type');
 const price = document.querySelector('#housing-price');
 const roomQuantity = document.querySelector('#housing-rooms');
 const capacity = document.querySelector('#housing-guests');
-
-document.querySelector('.map__filters').addEventListener('change', () => {
-  getData( (rentalAds) => randomBalloons(rentalAds), (message) => showAlert(message));
-});
-
 
 const getAdRank = (ad) => {
   const currentResidenceType = residenceType.options[residenceType.selectedIndex].value;
@@ -106,5 +103,17 @@ const sortingAds = (ads) => {
   return sortedAds.slice(0, NUMBER_OF_MARKERS);
 };
 
+const initFilters = (ads) => {
+  document.querySelector('.map__filters').addEventListener('change', () => {
+    clearAdMarkers();
+    createAdMarkers(sortingAds(ads));
+  });
 
-export { sortingAds };
+  document.querySelector('.map__filters').addEventListener('reset', () => {
+    clearAdMarkers();
+    createInitialMarkers(ads);
+  });
+
+};
+
+export { initFilters };

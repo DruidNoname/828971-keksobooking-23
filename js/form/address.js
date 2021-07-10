@@ -1,6 +1,4 @@
-import {
-  USER_MARKER_COORDS
-} from '../map/map.js';
+const INITIAL_COORDS = L.latLng(35.6825, 139.75276);
 
 const address = document.querySelector('#address');
 
@@ -20,7 +18,7 @@ function setAddressField(coords, field) {
 }
 
 const setInitialCoords = () => {
-  setAddressField(USER_MARKER_COORDS, address);
+  setAddressField(INITIAL_COORDS, address);
 };
 
 setInitialCoords();
@@ -28,4 +26,8 @@ setInitialCoords();
 export {
   setInitialCoords,
   setAddressField
+};
+
+export {
+  INITIAL_COORDS
 };

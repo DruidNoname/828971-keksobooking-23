@@ -4,16 +4,16 @@ import './address.js';
 import './checkin.js';
 import './price.js';
 import './guest.js';
-import { clearFormsAndMarkers } from './clear.js';
-import { sendData } from '../server/server.js';
-import { showMessage } from '../utils/utils.js';
+import './message-on-submit.js';
 
-const offerForm = document.querySelector('.ad-form');
-const offerFormFields = offerForm.querySelectorAll('fieldset');
+import { resetForms } from './clear.js';
+import { sendData } from '../server/server.js';
+import { showMessage } from './message-on-submit.js';
+import { offerForm } from '../utils/utils.js';
 
 const isSuccessSendingForm = () => {
   showMessage('#success', '.success');
-  clearFormsAndMarkers();
+  resetForms();
 };
 
 offerForm.addEventListener('submit', (evt) => {
@@ -25,8 +25,3 @@ offerForm.addEventListener('submit', (evt) => {
     new FormData(evt.target),
   );
 });
-
-export {
-  offerForm,
-  offerFormFields
-}

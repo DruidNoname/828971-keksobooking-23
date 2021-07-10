@@ -1,24 +1,24 @@
-import '../form/form.js';
 import './map-labels.js';
 import './popup-baloon.js';
-import { getData } from '../server/server.js';
-import { activateForms } from '../modes/active-mode.js';
-import { setAddressField } from '../form/address.js';
-import { showAlert } from '../utils/utils.js';
+import './filter.js';
+
+import {
+  setAddressField,
+  INITIAL_COORDS
+} from '../form/address.js';
 import { drawBalloon } from './popup-baloon.js';
-import { sortingAds } from './filter.js';
 
-const USER_MARKER_COORDS = L.latLng(35.6825, 139.75276);
 const MAP_SCALE = 13;
+const NUMBER_OF_MARKERS = 10;
 
-const map =  L.map('map-canvas')
-  .on('load', () => {
-    activateForms();
-  })
+const map = L.map('map-canvas');
 
-  .setView(USER_MARKER_COORDS, MAP_SCALE);
+const mapLoading = async () => {
+  await map.setView(INITIAL_COORDS, MAP_SCALE);
+};
 
 const markerGroup = L.layerGroup().addTo(map);
+
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -26,6 +26,7 @@ L.tileLayer(
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
 ).addTo(map);
+
 
 const userMarkerIcon = L.icon(
   {
@@ -35,7 +36,7 @@ const userMarkerIcon = L.icon(
   });
 
 const userMarker = L.marker(
-  USER_MARKER_COORDS,
+  INITIAL_COORDS,
   {
     draggable: true,
     icon: userMarkerIcon,
@@ -52,8 +53,8 @@ userMarker.on('moveend', (evt) => {
 userMarker.addTo(map);
 
 const setInitialMarkerPosition = () => {
-  userMarker.setLatLng(USER_MARKER_COORDS);
-  map.setView(USER_MARKER_COORDS, MAP_SCALE);
+  userMarker.setLatLng(INITIAL_COORDS);
+  map.setView(INITIAL_COORDS, MAP_SCALE);
 };
 
 const customOfferMarkerIcon = L.icon(
@@ -63,7 +64,7 @@ const customOfferMarkerIcon = L.icon(
     iconAnchor: [20, 40],
   });
 
-const createRandomMarker = (value) => {
+const createAdMarker = (value) => {
   const customOffermarker = L.marker(
     {
       lat: value.location.lat,
@@ -81,22 +82,26 @@ const createRandomMarker = (value) => {
     );
 };
 
-const randomBalloons = function(ads) {
-  markerGroup.clearLayers();
-  sortingAds(ads)
-    .forEach((value) => {
-      createRandomMarker(value);
-    });
+const createAdMarkers = function(ads) {
+  ads.forEach((value) => {
+    createAdMarker(value);
+  });
 };
 
-const createAdMarkers = () => {
-  getData( (rentalAds) => randomBalloons(rentalAds.slice(0, 10)), (message) => showAlert(message));
+const createInitialMarkers = function(ads) {
+  createAdMarkers(ads.slice(0, NUMBER_OF_MARKERS));
 };
-createAdMarkers();
+
+const clearAdMarkers = () => {
+  markerGroup.clearLayers();
+};
 
 export {
+  mapLoading,
+  INITIAL_COORDS,
+  NUMBER_OF_MARKERS,
   setInitialMarkerPosition,
-  randomBalloons,
   createAdMarkers,
-  USER_MARKER_COORDS
+  createInitialMarkers,
+  clearAdMarkers
 };
