@@ -1,4 +1,4 @@
-const QUARTERS_TYPES_WITH_NAMES = {
+const ResidenceTypesWithNames = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
   house: 'Дом',
@@ -23,9 +23,9 @@ const fillContainer = (offerDataItem, container, fillingFunction) => {
 };
 
 const setTypeOfQuarters = (offerData, template) => {
-  for (const key in QUARTERS_TYPES_WITH_NAMES) {
+  for (const key in ResidenceTypesWithNames) {
     if (key === offerData.offer.type) {
-      template.querySelector('.popup__type').textContent = QUARTERS_TYPES_WITH_NAMES[key];
+      template.querySelector('.popup__type').textContent = ResidenceTypesWithNames[key];
     }
   }
 };
@@ -124,7 +124,6 @@ const setAvatar = (offerData, template) => {
   }
 };
 
-//здесь надо заменить имеющееся получением с сервера
 function drawBalloon(offerData) {
   const popupBalloon = popupBalloonTemplate.cloneNode(true);
 

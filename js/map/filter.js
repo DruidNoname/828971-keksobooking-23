@@ -1,10 +1,22 @@
+import { setActiveMode } from '../utils/active-mode.js';
+import { debounce } from '../utils/debounce.js';
 import {
   createAdMarkers,
-  clearAdMarkers
+  clearAdMarkers,
+  createInitialMarkers
 } from '../map/map.js';
-import {createInitialMarkers} from '../map/map.js';
 
 const NUMBER_OF_MARKERS = 10;
+const CREATING_DELAY = 500;
+
+const filtersForm = document.querySelector('.map__filters');
+const filtersFormFields = filtersForm.children;
+const residenceType = document.querySelector('#housing-type');
+const price = document.querySelector('#housing-price');
+const roomQuantity = document.querySelector('#housing-rooms');
+const capacity = document.querySelector('#housing-guests');
+
+const activateFiltersForm =  () => setActiveMode(filtersForm, filtersFormFields, 'map__filters--disabled');
 
 const getAdaptatedPriceValue = (currentPrice) => {
   if (0 < currentPrice && currentPrice < 10000) {
@@ -19,11 +31,6 @@ const getAdaptatedPriceValue = (currentPrice) => {
     return 'high';
   }
 };
-
-const residenceType = document.querySelector('#housing-type');
-const price = document.querySelector('#housing-price');
-const roomQuantity = document.querySelector('#housing-rooms');
-const capacity = document.querySelector('#housing-guests');
 
 const getAdRank = (ad) => {
   const currentResidenceType = residenceType.options[residenceType.selectedIndex].value;
@@ -69,7 +76,6 @@ const compareAds = (AddA, AddB) => {
   return rankB - rankA;
 };
 
-
 const getActiveFilterQuantity = () => {
   const filters = document.querySelectorAll('.map__filter');
   let counter = 0;
@@ -80,8 +86,7 @@ const getActiveFilterQuantity = () => {
     }
   }
 
-  counter = counter + (document.querySelectorAll('#housing-features input:checked')).length;
-  return counter;
+  return counter + (document.querySelectorAll('#housing-features input:checked')).length;
 };
 
 const sortingAds = (ads) => {
@@ -96,24 +101,26 @@ const sortingAds = (ads) => {
     if (firstWrongElemIndex < NUMBER_OF_MARKERS) {
       return sortedAds.slice(0, firstWrongElemIndex);
     }
-
-    return sortedAds.slice(0, NUMBER_OF_MARKERS);
   }
 
   return sortedAds.slice(0, NUMBER_OF_MARKERS);
 };
 
 const initFilters = (ads) => {
-  document.querySelector('.map__filters').addEventListener('change', () => {
+  document.querySelector('.map__filters').addEventListener('change', debounce( () => {
     clearAdMarkers();
     createAdMarkers(sortingAds(ads));
-  });
+  }), CREATING_DELAY);
 
   document.querySelector('.map__filters').addEventListener('reset', () => {
     clearAdMarkers();
     createInitialMarkers(ads);
   });
-
 };
 
-export { initFilters };
+export {
+  filtersForm,
+  filtersFormFields,
+  initFilters,
+  activateFiltersForm
+};

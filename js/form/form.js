@@ -1,27 +1,26 @@
-import '../server/server.js';
 import './validation.js';
 import './address.js';
 import './checkin.js';
 import './price.js';
 import './guest.js';
-import './message-on-submit.js';
 
-import { resetForms } from './clear.js';
-import { sendData } from '../server/server.js';
-import { showMessage } from './message-on-submit.js';
-import { offerForm } from '../utils/utils.js';
+import { setActiveMode } from '../utils/active-mode.js';
+import { resetForms } from '../utils/clear.js';
+import { showMessage } from '../utils/message.js';
+
+const offerForm = document.querySelector('.ad-form');
+const offerFormFields = offerForm.querySelectorAll('fieldset');
+
+const activateOfferForm = () => setActiveMode(offerForm, offerFormFields, 'ad-form--disabled');
 
 const isSuccessSendingForm = () => {
   showMessage('#success', '.success');
   resetForms();
 };
 
-offerForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-
-  sendData(
-    () => isSuccessSendingForm(),
-    () => showMessage('#error', '.error'),
-    new FormData(evt.target),
-  );
-});
+export {
+  offerForm,
+  offerFormFields,
+  isSuccessSendingForm,
+  activateOfferForm
+};

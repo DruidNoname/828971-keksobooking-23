@@ -1,12 +1,10 @@
-import './map-labels.js';
 import './popup-baloon.js';
 import './filter.js';
-
-import {
-  setAddressField,
-  INITIAL_COORDS
-} from '../form/address.js';
 import { drawBalloon } from './popup-baloon.js';
+import {
+  INITIAL_COORDS,
+  setAddressField
+} from '../form/address.js';
 
 const MAP_SCALE = 13;
 const NUMBER_OF_MARKERS = 10;
@@ -19,7 +17,6 @@ const mapLoading = async () => {
 
 const markerGroup = L.layerGroup().addTo(map);
 
-
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
@@ -27,13 +24,13 @@ L.tileLayer(
   },
 ).addTo(map);
 
-
 const userMarkerIcon = L.icon(
   {
     iconUrl: '../../img/main-pin.svg',
     iconSize: [52, 52],
     iconAnchor: [26, 52],
-  });
+  },
+);
 
 const userMarker = L.marker(
   INITIAL_COORDS,
@@ -62,7 +59,8 @@ const customOfferMarkerIcon = L.icon(
     iconUrl: '../../img/pin.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
-  });
+  },
+);
 
 const createAdMarker = (value) => {
   const customOffermarker = L.marker(
@@ -97,9 +95,9 @@ const clearAdMarkers = () => {
 };
 
 export {
-  mapLoading,
   INITIAL_COORDS,
   NUMBER_OF_MARKERS,
+  mapLoading,
   setInitialMarkerPosition,
   createAdMarkers,
   createInitialMarkers,

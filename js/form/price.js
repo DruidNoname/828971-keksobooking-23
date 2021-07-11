@@ -1,6 +1,5 @@
-const typeField = document.getElementById('type');
-const priceField = document.getElementById('price');
-const MINIMAL_PRICE_FOR_RESIDENCE = [
+const PRICE_PLACEHOLDER = 5000;
+const pricesForRezidences = [
   {
     type: 'bungalow',
     minPrice: 0,
@@ -23,11 +22,13 @@ const MINIMAL_PRICE_FOR_RESIDENCE = [
   },
 ];
 
-const PRICE_PLACEHOLDER = 5000;
+const typeField = document.getElementById('type');
+const priceField = document.getElementById('price');
+
 
 function getMinimalPrice() {
   const currentResidenceType = typeField.options[typeField.selectedIndex].value;
-  const neededResidencePrice = MINIMAL_PRICE_FOR_RESIDENCE.find(  (value) => value.type === currentResidenceType);
+  const neededResidencePrice = pricesForRezidences.find((value) => value.type === currentResidenceType);
 
   return neededResidencePrice.minPrice;
 }
@@ -53,6 +54,6 @@ priceField.addEventListener('focus', () => {
 });
 
 export {
-  setInitialPriceAttrs,
-  priceField
+  priceField,
+  setInitialPriceAttrs
 };

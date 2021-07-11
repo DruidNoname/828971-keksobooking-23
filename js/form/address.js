@@ -4,6 +4,7 @@ const address = document.querySelector('#address');
 
 function getRoundedCoords(coords) {
   const coordsValueArray = Object.values(coords);
+
   return coordsValueArray.map((value) => value.toFixed(5));
 }
 
@@ -24,10 +25,7 @@ const setInitialCoords = () => {
 setInitialCoords();
 
 export {
+  INITIAL_COORDS,
   setInitialCoords,
   setAddressField
-};
-
-export {
-  INITIAL_COORDS
 };

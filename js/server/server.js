@@ -1,31 +1,19 @@
-import {showAlert} from '../utils/utils.js';
+import { showAlert } from '../utils/show-alert.js';
+import { showMessage } from '../utils/message.js';
 import {
   createInitialMarkers,
   mapLoading
 } from '../map/map.js';
-import { activateForms } from '../modes/active-mode.js';
 import {
-  initFilters
+  initFilters,
+  activateFiltersForm
 } from '../map/filter.js';
+import {
+  activateOfferForm,
+  isSuccessSendingForm,
+  offerForm
+} from '../form/form.js';
 
-const getData = (onSuccess, onFail) => {
-  fetch('https://23.javascript.pages.academy/keksobooking/data' +
-    ' ')
-    .then((response) => {
-      if (response.ok) {
-        return response;
-      }
-
-      throw new Error('Ошибка загрузки похожих объявлений');
-    })
-    .then((response) => response.json())
-    .then((rentalAds) => {
-      onSuccess(rentalAds);
-    })
-    .catch((error = 'Ошибка загрузки похожих объявлений') => {
-      onFail(error);
-    });
-};
 
 const sendData = (onSuccess, onFail, formData) => {
   fetch(
@@ -47,23 +35,50 @@ const sendData = (onSuccess, onFail, formData) => {
     });
 };
 
+const getData = (onSuccess, onFail) => {
+  fetch('https://23.javascript.pages.academy/keksobooking/data' +
+    ' ')
+    .then((response) => {
+      if (response.ok) {
+        return response;
+      }
+
+      throw new Error('Ошибка загрузки похожих объявлений');
+    })
+    .then((response) => response.json())
+    .then((rentalAds) => {
+      onSuccess(rentalAds);
+    })
+    .catch((error = 'Ошибка загрузки похожих объявлений') => {
+      onFail(error);
+    });
+};
+
 const getAddsAndActivateFilters = (rentalAds) => {
   const fullAdsAssortiment = rentalAds.slice();
+
   createInitialMarkers(fullAdsAssortiment);
+  activateFiltersForm();
   initFilters(fullAdsAssortiment);
 };
 
 const getAdsFromServer = () => {
-  getData((rentalAds) => getAddsAndActivateFilters(rentalAds),(message) => showAlert(message));
+  getData(
+    (rentalAds) => getAddsAndActivateFilters(rentalAds),
+    (message) => showAlert(message));
 };
 
 mapLoading()
+  .then(activateOfferForm)
   .then(getAdsFromServer)
-  .then(activateForms)
-  .catch(showAlert);
+  .catch((error = 'Ошибка загрузки похожих объявлений') => showAlert(error));
 
-export {
-  getAdsFromServer,
-  sendData
-};
+offerForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
 
+  sendData(
+    () => isSuccessSendingForm(),
+    () => showMessage('#error', '.error'),
+    new FormData(evt.target),
+  );
+});
