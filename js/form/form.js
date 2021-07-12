@@ -3,6 +3,7 @@ import './address.js';
 import './checkin.js';
 import './price.js';
 import './guest.js';
+import './image-preview.js';
 
 import { setActiveMode } from '../utils/active-mode.js';
 import { resetForms } from '../utils/clear.js';

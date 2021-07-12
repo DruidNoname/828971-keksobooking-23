@@ -4,48 +4,51 @@ import {
   equalizeGuestsToRooms
 } from './guest.js';
 
+const MIN_TITLE_LENGTH = 30;
+const MAX_TITLE_LENGTH = 100;
+const MAX_PRICE = 1000000;
+
 const offerTitleInput = document.querySelector('#title');
 const offerPriceInput = document.querySelector('#price');
 const offerSendButton = document.querySelector('.ad-form__submit');
 
 const getCurrentOption = (select) => select.options[select.selectedIndex];
 
-offerTitleInput.addEventListener('invalid', () => {
-  if (offerTitleInput.validity.valueMissing) {
-    return offerTitleInput.setCustomValidity('Название помещения обязательно для заполнения');
+offerTitleInput.addEventListener('input', () => {
+  const titleLength = offerTitleInput.value.length;
+
+  if (!titleLength) {
+    offerTitleInput.setCustomValidity('Название помещения обязательно для заполнения');
+  } else if (titleLength < MIN_TITLE_LENGTH) {
+    offerTitleInput.setCustomValidity('Название помещения должно содержать не менее 30 символов');
+  } else if (titleLength > MAX_TITLE_LENGTH) {
+    offerTitleInput.setCustomValidity('Название помещения должно содержать не более 100 символов');
+  } else {
+    return offerTitleInput.setCustomValidity('');
   }
 
-  if (offerTitleInput.validity.tooShort) {
-    return offerTitleInput.setCustomValidity('Название помещения должно содержать не менее 30 символов');
-  }
-
-  if (offerTitleInput.validity.tooLong) {
-    return offerTitleInput.setCustomValidity('Название помещения должно содержать не более 100 символов');
-  }
-
-  offerTitleInput.setCustomValidity('');
+  offerTitleInput.reportValidity();
 });
 
-offerPriceInput.addEventListener('invalid', () => {
-  if (offerPriceInput.validity.valueMissing) {
-    return offerPriceInput.setCustomValidity('Цена помещения обязательна для заполнения');
-  }
+offerPriceInput.addEventListener('input', () => {
+  const priceValue = +offerPriceInput.value;
+  const priceMin = +offerPriceInput.getAttribute('min');
 
-  if (offerPriceInput.validity.rangeOverflow) {
-    return offerPriceInput.setCustomValidity('Цена не может быть больше 1 000 000');
+  if (!priceValue) {
+    offerPriceInput.setCustomValidity('Цена помещения обязательна для заполнения');
+  } else if (+priceValue < +priceMin) {
+    offerPriceInput.setCustomValidity(`Цена не может быть меньше ${priceMin}`);
+  } else if (+priceValue > MAX_PRICE) {
+    offerPriceInput.setCustomValidity('Цена не может быть больше 1 000 000');
+  } else {
+    return offerPriceInput.setCustomValidity('');
   }
-
-  offerPriceInput.setCustomValidity('');
+  offerPriceInput.reportValidity();
 });
 
 offerSendButton.addEventListener('click', () => {
   equalizeGuestsToRooms(roomsNumber, capacity);
-  const roomsCurrentOption = getCurrentOption(roomsNumber);
   const capacityCurrentOption = getCurrentOption(capacity);
-
-  if (roomsCurrentOption.hasAttribute('disabled')) {
-    return roomsNumber.setCustomValidity('Количество комнат не соответствует заявленному количеству гостей');
-  }
 
   if (capacityCurrentOption.hasAttribute('disabled')) {
     return capacity.setCustomValidity('Количество гостей не соответствует заявленному количеству комнат');

@@ -21,32 +21,8 @@ function equalizeGuestsToRooms(changedField, staticField) {
   }
 }
 
-function equalizeRoomsToGuests(changedField, staticField) {
-  const changedOptionValue = changedField.options[changedField.selectedIndex].value;
-
-  for (const item of staticField.options) {
-    if (changedOptionValue === '0') {
-      if (item.value === '100') {
-        item.removeAttribute('disabled');
-      } else {
-        item.setAttribute('disabled', true);
-      }
-    } else {
-      if (item.value < changedOptionValue || item.value === '100') {
-        item.setAttribute('disabled', true);
-      } else {
-        item.removeAttribute('disabled');
-      }
-    }
-  }
-}
-
 roomsNumber.addEventListener('change', () => {
   equalizeGuestsToRooms(roomsNumber, capacity);
-});
-
-capacity.addEventListener('change', () => {
-  equalizeRoomsToGuests(capacity, roomsNumber);
 });
 
 export {

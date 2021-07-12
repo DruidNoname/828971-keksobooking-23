@@ -8,6 +8,11 @@ import {
 
 const MAP_SCALE = 13;
 const NUMBER_OF_MARKERS = 10;
+const USER_MARKER_SIZE = 52;
+const USER_MARKER_HALF = USER_MARKER_SIZE/2;
+const OFFER_MARKER_SIZE = 40;
+const OFFER_MARKER_HALF = OFFER_MARKER_SIZE/2;
+
 
 const map = L.map('map-canvas');
 
@@ -27,8 +32,8 @@ L.tileLayer(
 const userMarkerIcon = L.icon(
   {
     iconUrl: '../../img/main-pin.svg',
-    iconSize: [52, 52],
-    iconAnchor: [26, 52],
+    iconSize: [USER_MARKER_SIZE, USER_MARKER_SIZE],
+    iconAnchor: [USER_MARKER_HALF, USER_MARKER_SIZE],
   },
 );
 
@@ -57,8 +62,8 @@ const setInitialMarkerPosition = () => {
 const customOfferMarkerIcon = L.icon(
   {
     iconUrl: '../../img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+    iconSize: [OFFER_MARKER_SIZE, OFFER_MARKER_SIZE],
+    iconAnchor: [OFFER_MARKER_HALF, OFFER_MARKER_SIZE],
   },
 );
 

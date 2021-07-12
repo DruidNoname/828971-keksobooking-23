@@ -8,6 +8,9 @@ import {
 
 const NUMBER_OF_MARKERS = 10;
 const CREATING_DELAY = 500;
+const LOW_MIN_PRICE = 0;
+const LOW_MAX_PRICE = 10000;
+const MIDDLE_MAX_PRICE = 50000;
 
 const filtersForm = document.querySelector('.map__filters');
 const filtersFormFields = filtersForm.children;
@@ -19,15 +22,15 @@ const capacity = document.querySelector('#housing-guests');
 const activateFiltersForm =  () => setActiveMode(filtersForm, filtersFormFields, 'map__filters--disabled');
 
 const getAdaptatedPriceValue = (currentPrice) => {
-  if (0 < currentPrice && currentPrice < 10000) {
+  if (LOW_MIN_PRICE < currentPrice && currentPrice < LOW_MAX_PRICE) {
     return 'low';
   }
 
-  if (9999 < currentPrice && currentPrice < 50000) {
+  if (LOW_MAX_PRICE <= currentPrice && currentPrice < MIDDLE_MAX_PRICE) {
     return 'middle';
   }
 
-  if (49999 < currentPrice) {
+  if (MIDDLE_MAX_PRICE <= currentPrice) {
     return 'high';
   }
 };

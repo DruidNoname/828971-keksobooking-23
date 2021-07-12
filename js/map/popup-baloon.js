@@ -34,21 +34,21 @@ const setTitle = (offerData, template) => {
   const titleTemplate = getContainer(template, '.popup__title');
   const titleData = offerData.offer.title;
 
-  fillContainer(titleData, titleTemplate, () => titleTemplate.textContent = titleData);
+  fillContainer(titleData, titleTemplate, () => { titleTemplate.textContent = titleData; });
 };
 
 const setAddress = (offerData, template) => {
   const addressTemplate = getContainer(template, '.popup__text--address');
   const addressData = offerData.offer.address;
 
-  fillContainer(addressData, addressTemplate, () => addressTemplate.textContent = addressData);
+  fillContainer(addressData, addressTemplate, () => { addressTemplate.textContent = addressData; });
 };
 
 const setPrice = (offerData, template) => {
   const priceTemplate = getContainer(template, '.popup__text--price');
   const priceData = offerData.offer.price;
 
-  fillContainer(priceData, priceTemplate, () => priceTemplate.textContent = priceData);
+  fillContainer(priceData, priceTemplate, () => { priceTemplate.textContent = priceData; });
 };
 
 const setCapacity = (offerData, template) => {
@@ -57,7 +57,7 @@ const setCapacity = (offerData, template) => {
   const roomsData = offerData.offer.rooms;
 
   if (existsAndFilled(roomsData)) {
-    fillContainer(capacityData, capacityTemplate, () => capacityTemplate.textContent = `${roomsData} комнат для ${capacityData} гостей`);
+    fillContainer(capacityData, capacityTemplate, () => { capacityTemplate.textContent = `${roomsData} комнат для ${capacityData} гостей`; });
   } else {
     capacityTemplate.remove();
   }
@@ -69,7 +69,7 @@ const setCheckin = (offerData, template) => {
   const checkoutData = offerData.offer.checkout;
 
   if (existsAndFilled(checkoutData)) {
-    fillContainer(checkinData, timeTemplate, () => `Заезд после ${checkinData}, выезд до ${checkoutData}`);
+    fillContainer(checkinData, timeTemplate, () => {timeTemplate.textContent =  `Заезд после ${checkinData}, выезд до ${checkoutData}`; });
   } else {
     timeTemplate.remove();
   }
@@ -77,16 +77,31 @@ const setCheckin = (offerData, template) => {
 
 const setFeatures = (offerData, template) => {
   const featuresTemplate = template.querySelector('.popup__features');
+  const featureItemTemplate = featuresTemplate.querySelectorAll('.popup__feature');
   const featuresData = offerData.offer.features;
 
-  fillContainer(featuresData, featuresTemplate, () => featuresTemplate.textContent = offerData.offer.features.join(', '));
+  if (existsAndFilled(featuresData)) {
+    fillContainer(featuresData, featuresTemplate, () => {
+      for (const feature of featureItemTemplate) {
+        const featureTargeter = feature.classList[1].split('--')[1];
+        if (featuresData.indexOf(featureTargeter) === -1) {
+          feature.remove();
+        }
+      }
+    });
+  } else {
+    featuresTemplate.remove();
+  }
 };
 
 const setDescription = (offerData, template) => {
   const descriptionTemplate = template.querySelector('.popup__description');
   const descriptionData = offerData.offer.description;
-
-  fillContainer(descriptionData, descriptionTemplate, () => descriptionTemplate.textContent = offerData.offer.description);
+  if (existsAndFilled(descriptionData)) {
+    fillContainer(descriptionData, descriptionTemplate, () => descriptionTemplate.textContent = offerData.offer.description);
+  } else {
+    descriptionTemplate.remove();
+  }
 };
 
 const setPhotos = (offerData, template) => {

@@ -12,6 +12,12 @@ import {
   capacity
 } from '../form/guest.js';
 
+import {
+  residencePictureField,
+  clearAvatar,
+  clearResidencePic
+} from '../form/image-preview.js';
+
 function resetDisabledAttr(field) {
   for (const item of field.options) {
     item.removeAttribute('disabled');
@@ -22,6 +28,8 @@ const resetForms = () => {
   filtersForm.reset();
   offerForm.reset();
 
+  clearAvatar();
+  clearResidencePic(residencePictureField);
   setInitialPriceAttrs(priceField);
   setInitialMarkerPosition();
   resetDisabledAttr(roomsNumber);
@@ -33,6 +41,7 @@ document.querySelector('.ad-form__reset').addEventListener('click', (evt) => {
   evt.preventDefault();
 
   resetForms();
+  evt.target.blur();
 });
 
 export {
