@@ -98,7 +98,7 @@ const setDescription = (offerData, template) => {
   const descriptionTemplate = template.querySelector('.popup__description');
   const descriptionData = offerData.offer.description;
   if (existsAndFilled(descriptionData)) {
-    fillContainer(descriptionData, descriptionTemplate, () => descriptionTemplate.textContent = offerData.offer.description);
+    fillContainer(descriptionData, descriptionTemplate, () => {descriptionTemplate.textContent = offerData.offer.description)};
   } else {
     descriptionTemplate.remove();
   }
